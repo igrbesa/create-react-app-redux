@@ -68,9 +68,8 @@ class Header extends Component {
             <div className={classes.root}>
                 <AppBar position="fixed" color="accent">
                     <Toolbar>
-                        <IconButton color="contrast" aria-label="Menu">
-                            <MenuIcon onClick={this.handleDrawOpening} />
-
+                        <IconButton color="contrast" aria-label="Menu" onClick={() => this.handleDrawOpening()}>
+                            <MenuIcon  />
                             <SideMenu open={this.state.isOpenedDrawer}
                                 onClose={this.handleDrawerClosing}
                                 onClick={this.handleDrawerClosing}
@@ -83,8 +82,8 @@ class Header extends Component {
 
                         <Hidden smDown>
                             <div className={classes.centerCategories}>
-                                <Button color="contrast" className={classes.highlightItem}>{this.props.count}</Button>
-                                <Button color="contrast" className={classes.highlightItem}>Login</Button>
+                                <Button color="contrast" className={classes.highlightItem} >{this.props.count}</Button>
+                                <Button color="contrast" className={classes.highlightItem}>klik</Button>
                                 <Button color="contrast" className={classes.highlightItem}>Login</Button>
                                 <Button color="contrast" className={classes.highlightItem}>Login</Button>
                             </div>
