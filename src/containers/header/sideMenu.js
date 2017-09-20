@@ -1,9 +1,14 @@
 import React from 'react';
 import { Drawer } from 'material-ui';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Divider from 'material-ui/Divider';
 import { withStyles } from 'material-ui/styles';
+
+//icons
 import HomeIcon from 'material-ui-icons/Home';
+import AccountCircle from 'material-ui-icons/AccountCircle';
 import CategoryIcon from 'material-ui-icons/Send';
+import LoginIcon from 'material-ui-icons/Input';
 
 const styleSheet = {
     list: {
@@ -17,11 +22,11 @@ const styleSheet = {
  * @param {} template 
  * @param {[{Object{_id, name}}]}  data 
  */
-const drawListItems = (data) => {
+const drawListItems = (data, eventClick) => {
     return data.map(value => {
         const { _id, name } = value;
         return (
-            <ListItem button key={_id}>
+            <ListItem button key={_id} onClick={eventClick}>
                 <ListItemIcon>
                     <CategoryIcon />
                 </ListItemIcon>
@@ -34,6 +39,7 @@ const drawListItems = (data) => {
 const SideMenu = (props) => {
 
     const classes = props.classes;
+    const {onListItemClicked} = props;
 
     return (
         <Drawer
@@ -43,7 +49,7 @@ const SideMenu = (props) => {
         >
             <List className={classes.list}>
 
-                <ListItem button>
+                <ListItem button onClick={() => onListItemClicked('pocetna')}>
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
@@ -51,9 +57,21 @@ const SideMenu = (props) => {
                 </ListItem>
 
                 {drawListItems(
-                    [{ _id: 1, name: "Prva" }, { _id: 2, name: "Druga" }]
+                    [{ _id: 1, name: "Prva" }, { _id: 2, name: "Druga" }], onListItemClicked
                 )}
-
+                <Divider/>
+                <ListItem button onClick={() => onListItemClicked('aboutme')}>
+                    <ListItemIcon>
+                        <AccountCircle />
+                    </ListItemIcon>
+                    <ListItemText primary="O meni" />
+                </ListItem>
+                <ListItem button onClick={() => onListItemClicked('login')}>
+                    <ListItemIcon>
+                        <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logiraj se" />
+                </ListItem>
                 
             </List>
         </Drawer>

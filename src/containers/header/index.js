@@ -60,6 +60,10 @@ class Header extends Component {
         this.setState({ isOpenedDrawer: false });
     }
 
+    onListItemClicked = (event, e, item) => {
+        console.log(item);
+    }
+
     render() {
 
         const classes = this.props.classes;
@@ -73,6 +77,7 @@ class Header extends Component {
                             <SideMenu open={this.state.isOpenedDrawer}
                                 onClose={this.handleDrawerClosing}
                                 onClick={this.handleDrawerClosing}
+                                onListItemClicked = {this.onListItemClicked}
                             />
                         </IconButton>
 
@@ -89,7 +94,6 @@ class Header extends Component {
                             </div>
                         </Hidden>
 
-                        <Button color="contrast">Login</Button>
                     </Toolbar>
                 </AppBar>
             </div>
