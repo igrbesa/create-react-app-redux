@@ -16,6 +16,8 @@ import Typography from 'material-ui/Typography';
 import { Route, Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Hidden from 'material-ui/Hidden';
+
+import Login from './Login';
 // import './stlye.css';
 
 import {
@@ -49,7 +51,8 @@ const options = [
 class Header extends Component {
 
     state = {
-        isOpenedDrawer: false
+        isOpenedDrawer: false,
+        loginDialogOpened: false
     }
 
     handleDrawOpening = () => {
@@ -60,8 +63,21 @@ class Header extends Component {
         this.setState({ isOpenedDrawer: false });
     }
 
-    onListItemClicked = (event, e, item) => {
-        console.log(item);
+    onListItemClicked = (item) => {
+        switch (item) {
+            case 'loginout':
+                if(!this.props.user){
+                    this.setState({loginDialogOpened:true});
+                }
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    onLoginRequestClose = () => {
+        this.setState({loginDialogOpened: false});
     }
 
     render() {
@@ -93,8 +109,12 @@ class Header extends Component {
                                 <Button color="contrast" className={classes.highlightItem}>Login</Button>
                             </div>
                         </Hidden>
+                        <Login open={this.state.loginDialogOpened}
+                    onRequestClose={this.onLoginRequestClose}/>
 
                     </Toolbar>
+
+                    
                 </AppBar>
             </div>
         );

@@ -26,7 +26,7 @@ const drawListItems = (data, eventClick) => {
     return data.map(value => {
         const { _id, name } = value;
         return (
-            <ListItem button key={_id} onClick={eventClick}>
+            <ListItem button key={_id} onClick={() => eventClick(name)}>
                 <ListItemIcon>
                     <CategoryIcon />
                 </ListItemIcon>
@@ -39,7 +39,7 @@ const drawListItems = (data, eventClick) => {
 const SideMenu = (props) => {
 
     const classes = props.classes;
-    const {onListItemClicked} = props;
+    const {onListItemClicked, categories, user} = props;
 
     return (
         <Drawer
@@ -66,13 +66,20 @@ const SideMenu = (props) => {
                     </ListItemIcon>
                     <ListItemText primary="O meni" />
                 </ListItem>
-                <ListItem button onClick={() => onListItemClicked('login')}>
+                <ListItem button onClick={() => onListItemClicked('loginout')}>
                     <ListItemIcon>
                         <LoginIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Logiraj se" />
+                    <ListItemText primary={user ? "Odjava" : "Logiraj me"} />
                 </ListItem>
-                
+                {user && 
+                    <ListItem button onClick={() => onListItemClicked('profile')}>
+                    <ListItemIcon>
+                        <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={user.nick} />
+                </ListItem>
+                }
             </List>
         </Drawer>
     );
