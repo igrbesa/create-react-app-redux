@@ -9,6 +9,8 @@ import {
   decrementAsync
 } from '../../modules/counter'
 
+import Login from '../auth'
+
 const Home = props => (
   <div>
     <h1>Home</h1>
@@ -25,6 +27,8 @@ const Home = props => (
     </p>
 
     <p><button onClick={() => props.changePage()}>Go to about page via redux</button></p>
+
+    <Login/>
   </div>
 )
 

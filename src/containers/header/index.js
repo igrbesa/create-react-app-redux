@@ -17,12 +17,11 @@ import { Route, Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Hidden from 'material-ui/Hidden';
 
-import Login from './Login';
-// import './stlye.css';
-
 import {
     increment
 } from '../../modules/counter'
+
+import {setLoginDialogOpened} from '../../modules/login'
 
 const styleSheet = {
     root: {
@@ -67,7 +66,8 @@ class Header extends Component {
         switch (item) {
             case 'loginout':
                 if(!this.props.user){
-                    this.setState({loginDialogOpened:true});
+                    this.props.setLoginDialogOpened(true);
+                    // this.setState({loginDialogOpened:true});
                 }
                 break;
         
@@ -109,8 +109,6 @@ class Header extends Component {
                                 <Button color="contrast" className={classes.highlightItem}>Login</Button>
                             </div>
                         </Hidden>
-                        <Login open={this.state.loginDialogOpened}
-                    onRequestClose={this.onLoginRequestClose}/>
 
                     </Toolbar>
 
@@ -132,7 +130,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    increment
+    increment,
+    setLoginDialogOpened
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Header));
