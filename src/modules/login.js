@@ -13,6 +13,10 @@ export default (state = loginInitialState, action) => {
     }
 }
 
+/**
+ *  Actions 
+ */
+
 export const setLoginDialogOpened = (value) => {
     return { type: SET_OPEN_DIALOG, payload: value };
 }

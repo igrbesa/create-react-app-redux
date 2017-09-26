@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import Dialog, { DialogTitle, DialogContent, DialogActions } from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { setLoginDialogOpened } from '../../modules/login'
+import { Field, reduxForm } from 'redux-form'
+import renderField from '../reduxFormFields'
+import Grid from 'material-ui/Grid';
+
 
 class Login extends Component {
     state = {
@@ -17,20 +20,23 @@ class Login extends Component {
     }
 
     render() {
-        const { classes, isLoginDialogOpened } = this.props;
+        const { classes, isLoginDialogOpened, handleSubmit } = this.props;
 
         return (
             <Dialog open={isLoginDialogOpened}
                 onRequestClose={this.handleDialogRequestClose}>
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        id="name"
-                        label="Name"
-                        className={classes.textField}
-                        value={this.state.name}
-                        margin="normal"
-                    />
+                    <Grid container>
+                        <form onSubmit={handleSubmit}>
+                            <Grid item xs>
+                                <Field name="name" component={renderField} label="First Name" type="textField" margin="normal" />
+                            </Grid>
+                            <Grid itme xs>
+                                <Field name="second" component={renderField} label="Second Name" type="textField" margin="normal" />
+                            </Grid>
+                        </form>
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button raised onClick={this.handleRequestClose} color="primary">
@@ -60,5 +66,8 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
+Login = reduxForm({
+    form: 'login'
+})(Login)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Login))
