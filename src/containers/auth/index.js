@@ -5,7 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { setLoginDialogOpened } from '../../modules/login'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, submit } from 'redux-form'
 import renderField from '../reduxFormFields'
 import Grid from 'material-ui/Grid';
 
@@ -24,27 +24,35 @@ class Login extends Component {
 
         return (
             <Dialog open={isLoginDialogOpened}
-                onRequestClose={this.handleDialogRequestClose}>
+                onRequestClose={this.handleDialogRequestClose}
+                className={classes.root}>
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
                     <Grid container>
-                        <form onSubmit={handleSubmit}>
-                            <Grid item xs>
-                                <Field name="name" component={renderField} label="First Name" type="textField" margin="normal" />
+                        <form onSubmit={handleSubmit} className={classes.stretchStyle}>
+                            <Grid item xs={12}>
+                                <Field name="email" component={renderField} label="E-mail" type="email" margin="normal" required className={classes.stretchStyle}/>
                             </Grid>
-                            <Grid itme xs>
-                                <Field name="second" component={renderField} label="Second Name" type="textField" margin="normal" />
+                            <Grid item xs={12}>
+                                <Field name="password" component={renderField} label="Password" type="password" margin="normal" required className={classes.stretchStyle}/>
                             </Grid>
                         </form>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button raised onClick={this.handleRequestClose} color="primary">
-                        Sign in
-                    </Button>
-                    <Button onClick={this.handleDialogRequestClose} color="primary">
-                        Cancel
-                    </Button>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Button raised onClick={() => this.props.submit('login')} color="primary" className={classes.stretchStyle}>
+                                Sign in
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button onClick={() => alert()}>
+                                new user? create new account
+                            </Button>
+                        </Grid>
+                    </Grid>
+
                 </DialogActions>
 
             </Dialog>
@@ -53,11 +61,40 @@ class Login extends Component {
 }
 
 const styleSheet = {
+    root: {
+        flexGrow: 1,
+        marginTop: 30
+    },
+    stretchStyle: {
+        width: '100%'
+    }
+}
 
+const validate = (values) => {
+    const errors = {};
+
+    if (!values.email)
+        errors.email = "Required";
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
+        errors.email = 'Invalid email address';
+
+    if (!values.password)
+        errors.password = "Required";
+    else if (values.password.length < 6)
+        errors.password = "Expected at least 6 characters"
+
+
+
+    return errors;
+}
+
+const handleLoginSubmit = (values) => {
+    alert(values);
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
-    setLoginDialogOpened
+    setLoginDialogOpened,
+    submit
 }, dispatch)
 
 const mapStateToProps = (state, ownProps) => {
@@ -67,7 +104,9 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 Login = reduxForm({
-    form: 'login'
+    form: 'login',
+    validate,
+    onSubmit: handleLoginSubmit
 })(Login)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styleSheet)(Login))
