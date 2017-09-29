@@ -21,7 +21,7 @@ import {
     increment
 } from '../../modules/counter'
 
-import {setLoginDialogOpened} from '../../modules/login'
+import {setLoginDialogOpened} from '../../modules/auth'
 
 const styleSheet = {
     root: {

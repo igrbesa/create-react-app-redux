@@ -10,6 +10,7 @@ import {
 } from '../../modules/counter'
 
 import Login from '../auth'
+import Register from '../auth/Register'
 
 const Home = props => (
   <div>
@@ -29,6 +30,7 @@ const Home = props => (
     <p><button onClick={() => props.changePage()}>Go to about page via redux</button></p>
 
     <Login/>
+    <Register/>
   </div>
 )
 

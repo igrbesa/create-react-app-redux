@@ -4,37 +4,30 @@ import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { setLoginDialogOpened } from '../../modules/login'
+import { setLoginDialogOpened, setRegisterDialogOpened } from '../../modules/auth'
 import { Field, reduxForm, submit } from 'redux-form'
 import renderField from '../reduxFormFields'
 import Grid from 'material-ui/Grid';
 
 
 class Login extends Component {
-    state = {
-        isRegister: false
-    }
-
-    handleDialogRequestClose = () => {
-        this.props.setLoginDialogOpened(false);
-    }
 
     render() {
-        const { classes, isLoginDialogOpened, handleSubmit } = this.props;
+        const { classes, isLoginDialogOpened, handleSubmit, setLoginDialogOpened, setRegisterDialogOpened } = this.props;
 
         return (
             <Dialog open={isLoginDialogOpened}
-                onRequestClose={this.handleDialogRequestClose}
+                onRequestClose={() => setLoginDialogOpened(false)}
                 className={classes.root}>
                 <DialogTitle>Login</DialogTitle>
                 <DialogContent>
                     <Grid container>
                         <form onSubmit={handleSubmit} className={classes.stretchStyle}>
                             <Grid item xs={12}>
-                                <Field name="email" component={renderField} label="E-mail" type="email" margin="normal" required className={classes.stretchStyle}/>
+                                <Field name="email" component={renderField} label="E-mail" type="email" margin="normal" required className={classes.stretchStyle} />
                             </Grid>
                             <Grid item xs={12}>
-                                <Field name="password" component={renderField} label="Password" type="password" margin="normal" required className={classes.stretchStyle}/>
+                                <Field name="password" component={renderField} label="Password" type="password" margin="normal" required className={classes.stretchStyle} />
                             </Grid>
                         </form>
                     </Grid>
@@ -47,7 +40,10 @@ class Login extends Component {
                             </Button>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button onClick={() => alert()}>
+                            <Button onClick={() => {
+                                setLoginDialogOpened(false);
+                                setRegisterDialogOpened(true)
+                            }}>
                                 new user? create new account
                             </Button>
                         </Grid>
@@ -83,23 +79,25 @@ const validate = (values) => {
     else if (values.password.length < 6)
         errors.password = "Expected at least 6 characters"
 
-
-
     return errors;
 }
 
-const handleLoginSubmit = (values) => {
+const handleLoginSubmit = (values, dispatch, props) => {
     alert(values);
+
+    //after sending login data
+    props.setLoginDialogOpened(false);
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
     setLoginDialogOpened,
+    setRegisterDialogOpened,
     submit
 }, dispatch)
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isLoginDialogOpened: state.login.isLoginDialogOpened
+        isLoginDialogOpened: state.auth.isLoginDialogOpened
     }
 }
 
